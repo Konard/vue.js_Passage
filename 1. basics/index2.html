@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Условия и циклы</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        #app {
+            max-width: 992px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn {
+            cursor: pointer;
+            font-size: 18px;
+            padding: 24px;
+            outline: none;
+        }
+
+        .text {
+            color: #000;
+            font-size: 22px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="check">
+            <h2 class="check__title title">Проверки</h2>
+            <div v-if="check.condition" class="check__true">
+                <p class="check__text text">{{check.variant["0"]}}</p>
+            </div>
+            <div v-else class="check__false">
+                <p class="check__text text">{{check.variant["1"]}}</p>
+            </div>
+            <button @click="(check.condition = !check.condition), (check.conditionBtn = !check.conditionBtn)"
+                class="check__btn btn">Изменить состояние {{check.conditionBtn ? '0': '1'}}</button>
+            <p class="check__text text">Пока мы не используем методы и компьютерные вычисления, но обязательно будем.
+                Конечно, такая логика
+                получилась немного большой и лучше это выносить в метод, но я выкручусь, мы же пока не знаем методы.</p>
+            <p class="check__text text">Обратите внимание, что в усастый синтаксис мы можем помещать не только свойство,
+                но и вполне рабочий javaScript. Так мы вернули состояние кнопки. Помните, большая логика в таком
+                варианте может и понятна компьютеру, но точно не человеку.</p>
+        </div>
+        <div class="loop">
+            <h2 class="check__title title">Циклы</h2>
+            <p class="check__text text">VUE - Это очень мощный инструмент и он позволяет нам динамически итерироваться
+                по массиву/объекту рисуя блок, на который была повешена директива v-for столько раз, сколько необходимо.
+            </p>
+            <p :title="object.title" v-for="object of loop" :key="object.key" class="check__text text">Мы прошли: {{object.text}}</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                check: {
+                    variant: {
+                        0: `Только что мы использовали директиву  v-if,  
+                    если вы знаете  javaScript  язык, то это не будет для вас что-то новое.  
+                    Мы проверили условие и получили состояние, если данные "правда".`,
+                        1: `Только что мы использовали директиву v-else,  
+                    если вы знаете  javaScript  язык, то это не будет для вас что-то новое.  
+                    Мы проверили условие и получили состояние, если данные "не правда".`,
+                    },
+
+                    condition: true,
+                    conditionBtn: true,
+                },
+                loop: [
+                    { text: 'Проверки', },
+                    { text: 'Циклы', }, 
+                    { title: 'Сейчас на параграфе весит директива  v-for, которая переберет массив, и каждый элемент будет  n  объект.'}
+                ], 
+
+            }
+        })
+    </script>
+</body>
+
+</html>

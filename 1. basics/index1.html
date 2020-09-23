@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Декларативная отрисовка</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        #app {
+            max-width: 992px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .drawing {
+            border-bottom: 3px solid #000;
+        }
+
+        .text {
+            color: #000;
+            font-size: 22px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="drawing text">
+            {{ drawing.message }}
+        </div>
+        <div class="ATTRIBUTE">
+            <p class="ATTRIBUTE__bind text" :title="bindTest.text">На первом этапе мы рассмотрим атрибут v-bind, он же
+                директива.
+                Вы можете
+                сократить v-bind = :bind . Некоторые директивы допускает vue, допустим:title, не иначе как
+                title="Подсказка.". Попробуем сделать то же самое. Просто наведи на текст мышкой и всплывет подсказка.
+            </p>
+            <p class="ATTRIBUTE__bind text" :status="bindTest.status">
+                Вы можете указать свойство, затем использовать его, нет, это не:title, название может быть произвольным.
+                Указанное свойство необходимо создать, на пример тут используется:status, это наше собственное свойство,
+                а в него мы поместим bindTest.status. Конечно же, наводив мышкой на текст подсказки не будет.
+                Помните, теперь status в действительности атрибут html-а, который он никогда не имел.
+            </p>
+            <p class="ATTRIBUTE__bind text" :title="bindTest.info">Подсказка, наведи:</p>
+            <p class="ATTRIBUTE__bind text" :props="props">{{props}} + А сейчас убедись, что мы просто создали свойство
+                props и его использовали, как html атрибут, но не более.</p>
+            <p class="ATTRIBUTE__bind text"
+                example="Заметь, данная запись имеет атрибут example и мы просто передали туда наш текст, который в этом примере не лежит даже в объекте. По этому  vue  не нарисует.">
+                Исследуй все элементы и увидишь все сам.</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                drawing: {
+                    message: 'Вот мы и создали наше первое Vue-приложение! Выглядит как простая отрисовка шаблона',
+                },
+                bindTest: {
+                    text: 'Мы применили данные в нашу подсказку, которые находятся в нашем объекте. ',
+                    status: 'Мы создали собственное свойство, оно наш:status="status"',
+                    // * \\
+                    info: `Такой вариант записи интересен, но зачем писать html  атрибут,  
+                    который никогда не существовал, думайте сами.`,
+                },
+                props: `Когда мы дойдем до компонентов, тогда такая запись нам понадобится,  
+                нам придется проталкивать  props  от родителя до ребенка или другого родителя,  
+                как соседа или опять его ребенка.`,
+
+            }
+        })
+    </script>
+</body>
+
+</html>

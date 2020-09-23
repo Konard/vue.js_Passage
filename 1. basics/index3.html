@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа с пользовательским вводом</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        #app {
+            max-width: 992px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .title {
+            font-size: 24px;
+            color: #000;
+            border-bottom: 2px solid #000;
+        }
+
+        .btn {
+            width: 32%;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 10px;
+            outline: none;
+        }
+
+        .text {
+            color: #000;
+            font-size: 22px;
+        } 
+
+        .program__text_dedicated{ 
+            color: crimson;
+        } 
+
+        .program__input { 
+            width: 100%; 
+            padding: 10px; 
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="preview">
+            <h2 class="preview__title title">{{beginning.title}}</h2>
+            <p v-for="element of beginning.texts" :key="element.id" class="preview__text text">
+                {{element}}
+            </p>
+        </div>
+        <div class="program">
+            <h2 class="program__title title">{{interface.title}}</h2>
+            <p v-for="element of interface.texts" :key="element.id" class="program__text text">
+                {{element}}
+            </p>
+            <button @click="() => draw()" class="program__btn btn">Показать текст:
+                {{interface.message ? 'Да' : 'Нет'}}</button>
+            <button @click="() => getDeployText()" class="program__btn btn">Перевернуть текст:
+                {{interface.inverted ? 'Да' : 'Нет'}}</button>
+            <button @click="() => change()" class="program__btn btn">Озаглавить текст:
+                {{interface.letterСase ? 'Да' : 'Нет'}}</button>
+            <p class="program__text program__text_dedicated text ">{{interface.message ? interface.info : ''}}</p> 
+            <p v-for="element of ligament.texts" :key="element.id" class="program__text text">
+                {{element}}
+            </p> 
+            <input class="program__input" v-model="interface.info" type="text">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                beginning: {
+                    title: 'Начало работы',
+                    texts: [`Пора разобрать такую вещь, как methods. Он пишется следующим объектом после
+                data. В данном варианте мы
+                пишем методы, как в классе, можете так и считать. Конечно же вы можете вернуть результат, а можете не
+                возвращать, мы научимся пользоваться данным объектом в течение долгой практики. А сейчас просто
+                запомните, что вы описываете метод, как бы это делали на простом javaScript. Т.е по сути просто функция.`,
+
+                        `В vue, как и в самом языке javaScript, есть удобная возможность слушать
+                события. Есть нюансы, но о них тут мы говорить не станем. Для того что бы слушать событие, просто в
+                шаблоне на нужной кнопке нам достаточно создать директиву v-on или сократить и написать @, Мы должны
+                получить v-on:click === @click.`,
+
+                        `Что ж, событие есть, прекрасно, но на данном этапе оно не будет работать. Дело
+                в том, что внутри скобочек нам необходимо указать метод или наше свойство, с которым мы собственно и
+                будем работать. Кстати, существуют вычисляемые свойства, но о них позже. Важное отличие, описав метод,
+                вы можете передавать аргументы, а если это свойство, то о никаких аргументах и речи идти не может.`,
+
+                        `Стоит упомянуть, что click, это одно из событий, конечно же событие все
+                берутся из настоящего javaScript, по этому с этим проблем нету на начальном этапе уж точно. Не
+                забывайте, что вы можете, как и на обычном языке, слушать событие, которое вернет сallback
+                функция, с этим проблем нет, скажу больше, мы даже можем опускать это.`,
+
+                        `А вы заметили, что этот текст написан средствами  vue,  
+                а все данные хранятся в массиве. Исследуйте код.`
+                    ],
+                },
+
+                interface: {
+                    title: 'Наш первый интерфейс',
+                    texts: [`Забавно, но на самом деле мы создадим уже второй интерфейс, первый мы создавали,  
+                    когда меняли состояние, но там мы не использовали methods по тому,  
+                    как функционал наш был ограничен одной строчкой кода.`,
+
+                        `Обратите внимание, в методе мы просто обновляем состояние приложения,  
+                не затрагивая DOM — всю работу с DOM выполняет Vue,  
+                а вы пишете код, который занимается только логикой приложения.`],
+                    message: false,
+                    inverted: false,
+                    letterСase: false,
+                    info: 'вы только что прослушали событие, и изменили состояние по клику.',
+                },
+
+                ligament: {
+                    texts: [`Мы можем связать данные input  с нашими данными которые могут лежать в нашей переменной.  
+                    На такой случай нам понадобится еще одна директива v-model,  
+                    позволяющую легко связывать элементы форм и состояние приложения.`,
+                        `Мы уже написали приложения, но наш текст статичен,  
+                как насчет того, что бы пользователь сам вводил текст,  
+                ну, а от нас требовалось лишь взаимодействие с текстом.`]
+                }
+
+
+            },
+            methods: {
+                draw() {
+                    this.interface.message = !this.interface.message;
+                    console.log(this.interface.message);
+                    if (this.interface.message === false) {
+                        this.getDeployText();
+                        this.change();
+                    }
+                },
+
+
+                getDeployText() {
+                    /* 
+                    const message = this.interface.message: 
+                    const inverted = this.interface.inverted: 
+                    const info = this.interface.info:
+                     */
+
+                    const { message, inverted, info } = this.interface;
+                    if (inverted === true) {
+                        this.interface.inverted = false;
+                        this.interface.info = info.split('').reverse().join('');
+                    }
+
+                    else if (message === false) {
+                        this.interface.inverted = false;
+                    }
+
+                    else {
+                        this.interface.inverted = !inverted;
+                        this.interface.info = info.split('').reverse().join('');
+                    }
+                },
+
+                change() {
+                    const { message, letterСase, info } = this.interface;
+                    if (message === false) {
+                        this.interface.letterСase = false;
+                        this.interface.info = info.toLowerCase();
+                    }
+                    else {
+                        this.interface.letterСase = !letterСase;
+                        this.interface.info = info.toUpperCase();
+                    }
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
