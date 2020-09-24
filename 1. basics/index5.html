@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разбиение приложения на компоненты</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        #app {
+            max-width: 992px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <deeptree></deeptree>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('treenode', {
+            data() {
+                return {
+
+                }
+            },
+            props: ['children'],
+            //Компонент всегда пишется в template
+            template: `  
+            <div>
+                <ul v-for="obj in children"> 
+                    <li>{{obj.content}}</li>
+                </ul> 
+            </div>
+            `,
+        });
+
+        Vue.component('deeptree', {
+            data() {
+                return {
+                    children: [{
+                        content: "данные или текст для вложенного элемента 1",
+                        children: []
+                    }, {
+                        content: "данные или текст для вложенного элемента 2",
+                        children: []
+                    }]
+
+                }
+            },
+            //Компонент всегда пишется в template
+            template: `  
+            <div class="dom"> 
+                <treenode  
+                :children="children" ></treenode>
+            </div>
+            `,
+        });
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+
+            }
+
+        });
+    </script>
+</body>
+
+</html>
