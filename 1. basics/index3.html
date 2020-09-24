@@ -67,11 +67,11 @@
                 {{interface.inverted ? 'Да' : 'Нет'}}</button>
             <button @click="() => change()" class="program__btn btn">Озаглавить текст:
                 {{interface.letterСase ? 'Да' : 'Нет'}}</button>
-            <p class="program__text program__text_dedicated text ">{{interface.message ? interface.info : ''}}</p> 
+            <p class="program__text program__text_dedicated text ">{{interface.message ? interface.text : ''}}</p> 
             <p v-for="element of ligament.texts" :key="element.id" class="program__text text">
                 {{element}}
             </p> 
-            <input class="program__input" v-model="interface.info" type="text">
+            <input class="program__input" v-model="interface.text" type="text">
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -119,7 +119,7 @@
                     message: false,
                     inverted: false,
                     letterСase: false,
-                    info: 'вы только что прослушали событие, и изменили состояние по клику.',
+                    text: 'вы только что прослушали событие, и изменили состояние по клику.',
                 },
 
                 ligament: {
@@ -148,13 +148,13 @@
                     /* 
                     const message = this.interface.message: 
                     const inverted = this.interface.inverted: 
-                    const info = this.interface.info:
+                    const text = this.interface.text:
                      */
 
-                    const { message, inverted, info } = this.interface;
+                    const { message, inverted, text } = this.interface;
                     if (inverted === true) {
                         this.interface.inverted = false;
-                        this.interface.info = info.split('').reverse().join('');
+                        this.interface.text = text.split('').reverse().join('');
                     }
 
                     else if (message === false) {
@@ -163,19 +163,25 @@
 
                     else {
                         this.interface.inverted = !inverted;
-                        this.interface.info = info.split('').reverse().join('');
+                        this.interface.text = text.split('').reverse().join('');
                     }
                 },
 
-                change() {
-                    const { message, letterСase, info } = this.interface;
-                    if (message === false) {
+                change() { 
+                    const { message, letterСase, text } = this.interface;
+                    if (message === true && letterСase === true) {
                         this.interface.letterСase = false;
-                        this.interface.info = info.toLowerCase();
-                    }
+                        this.interface.text = text.toLowerCase();
+                    }  
+
+                    else if (message === false) {
+                        this.interface.letterСase = false;
+                        this.interface.text = text.toLowerCase();
+                    } 
+
                     else {
                         this.interface.letterСase = !letterСase;
-                        this.interface.info = info.toUpperCase();
+                        this.interface.text = text.toUpperCase();
                     }
 
                 }
