@@ -25,19 +25,52 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
+
+        Vue.component('licomponent', {
+            data() {
+                return {
+
+                }
+            },
+            props: ['item'],
+            //Компонент всегда пишется в template
+            template: `    
+            <li>{{item.content}}</li>
+                
+            `,
+        });
+
+        Vue.component('ulcomponent', {
+            data() {
+                return {
+
+                }
+            },
+            props: ['content'],
+            //Компонент всегда пишется в template
+            template: `  
+            <ul class="content"  
+            v-if="content.content">
+                <licomponent  
+                v-for="item in content.children"  
+                :key="item.id"  
+                :item="item"> 
+                </licomponent>
+            </ul>    
+            `,
+        });
+
         Vue.component('treenode', {
             data() {
                 return {
 
                 }
             },
-            props: ['children'],
+            props: ['data'],
             //Компонент всегда пишется в template
-            template: `  
-            <div>
-                <ul v-for="obj in children"> 
-                    <li>{{obj.content}}</li>
-                </ul> 
+            template: `   
+            <div class="treenode">
+                <ulcomponent v-for="content in data" :key="content.id" :content="content"></ulcomponent>  
             </div>
             `,
         });
@@ -45,13 +78,61 @@
         Vue.component('deeptree', {
             data() {
                 return {
-                    children: [{
-                        content: "данные или текст для вложенного элемента 1",
-                        children: []
-                    }, {
-                        content: "данные или текст для вложенного элемента 2",
-                        children: []
-                    }]
+                    data: [{
+                        content: "данные или текст",
+                        children: [{
+                            content: "данные или текст для вложенного элемента 1",
+                            children: []
+                        }, {
+                            content: "данные или текст для вложенного элемента 2",
+                            children: []
+                        }, 
+                        {
+                            content: "данные или текст для вложенного элемента 3",
+                            children: []
+                        }]
+                    },
+                    {
+                        content: "данные или текст",
+                        children: [{
+                            content: "данные или текст для вложенного элемента 1",
+                            children: []
+                        }, {
+                            content: "данные или текст для вложенного элемента 2",
+                            children: []
+                        }]
+                    }, 
+                    
+                    {
+                        content: "данные или текст",
+                        children: [{
+                            content: "данные или текст для вложенного элемента 1",
+                            children: []
+                        }, {
+                            content: "данные или текст для вложенного элемента 2",
+                            children: []
+                        }]
+                    }, 
+                    {
+                        content: "данные или текст",
+                        children: [{
+                            content: "данные или текст для вложенного элемента 1",
+                            children: []
+                        }, {
+                            content: "данные или текст для вложенного элемента 2",
+                            children: []
+                        }]
+                    }, 
+                    {
+                        content: "данные или текст",
+                        children: [{
+                            content: "данные или текст для вложенного элемента 1",
+                            children: []
+                        }, {
+                            content: "данные или текст для вложенного элемента 2",
+                            children: []
+                        }]
+                    },]
 
                 }
             },
@@ -59,7 +140,8 @@
             template: `  
             <div class="dom"> 
                 <treenode  
-                :children="children" ></treenode>
+                :data="data" > 
+                </treenode>
             </div>
             `,
         });
